@@ -27,10 +27,8 @@ export default class CreateJournal extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         await addJournalEntry({
-            journal_entry: this.state.journal_entry,
-            englishname: this.state.englishname,
             date: this.createDate(),
-            image_url: this.state.image_url
+            ...this.state // this would work, since all your keys match
         }, this.props.token)
 
         this.props.history.push('/journal')

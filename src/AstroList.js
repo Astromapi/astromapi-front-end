@@ -12,27 +12,28 @@ export default class AstroList extends Component {
         filter: 'all'
     }
 
-    componentDidMount = async () => {
+    doCall = async () => {
         const solarSystemAPI = await getSolarSystemAPI(this.state.pageNumber, this.state.filter, this.state.search);
         this.setState({ bodies: solarSystemAPI });
+    }
+
+    componentDidMount = async () => {
+        doCall()
     }
 
     handleCategorySelection = async (e) => {
         await this.setState({ filter: e.target.value, pageNumber: 1})
-        const solarSystemAPI = await getSolarSystemAPI(this.state.pageNumber, this.state.filter, this.state.search);
-        this.setState({ bodies: solarSystemAPI });
+        doCall()
     }
 
     handleNextPage = async (e) => {
         await this.setState({pageNumber: this.state.pageNumber + 1});
-        const solarSystemAPI = await getSolarSystemAPI(this.state.pageNumber, this.state.filter, this.state.search);
-        this.setState({ bodies: solarSystemAPI });
+        doCall()
     }
 
     handlePreviousPage = async (e) => {
         await this.setState({pageNumber: this.state.pageNumber - 1});
-        const solarSystemAPI = await getSolarSystemAPI(this.state.pageNumber, this.state.filter, this.state.search);
-        this.setState({ bodies: solarSystemAPI });
+        doCall()
     }
 
     handleSearchChange = (e) => {
@@ -40,8 +41,7 @@ export default class AstroList extends Component {
     }
 
     handleClick = async () => {
-        const solarSystemAPI = await getSolarSystemAPI(this.state.pageNumber, this.state.filter, this.state.search);
-        this.setState({ bodies: solarSystemAPI })
+        await this.doCall();
     }
 
     render(){

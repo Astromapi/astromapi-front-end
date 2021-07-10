@@ -24,7 +24,8 @@ export default class Wishlist extends Component {
                 <h1>Wishlist</h1>
                 <div className='astro-display'>
                     {
-                        this.state.wishlist !== [] ? 
+                        // the empty object comparison won't work, since arrays are a new object and simple equality checks only work on primitive types
+                        this.state.wishlist.length > 0 ? 
                             this.state.wishlist.map(item => 
                                 <div className='wish-item'>
                                     <h2>{item.englishname}</h2>

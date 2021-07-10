@@ -15,9 +15,32 @@ export default class AstroDisplay extends Component {
         this.setState({ wishlist: mungedWishlist })
     }
 
-    handleCreateJournal = (name) => {
+    handleAddWishList = (item) => {
+        async () => { 
+            const name = item.englishName === '' 
+                ? item.id 
+                : item.englishName;
+            await addToWishlist({ englishname: name }, this.props.token);}
+    }
+
+    handleCreateJournal = (item) => {
+        const name = item.englishName === '' 
+        ? item.id 
+        : item.englishName
+
         setName(name);
         this.props.history.push('./create');
+    }
+
+    isInWishlist = (item) => {
+        !this.state.wishlist.find(wish => {
+            // nice complicated find callback here!
+            const name = item.englishName === '' 
+                ? item.id 
+                : item.englishName;
+            return name === wish;
+            }
+        )
     }
 
     render() {
@@ -26,30 +49,22 @@ export default class AstroDisplay extends Component {
 
                 {this.props.display.map(item => 
                     <div className="astro-item" key={item.id}>
-                        <h2>{ item.englishName === '' ? item.id : item.englishName }</h2>
+                        <h2>{ item.englishName === '' 
+                            ? item.id 
+                            : item.englishName
+                        }</h2>
                         <p>gravity: {item.gravity}</p>
                         <p>date discovered: {item.discoveryDate}</p>
                         <p>radius: {item.meanRadius} KM</p>
                         <div className='buttons'>
                             {
-                            !this.state.wishlist.find(wish => 
-                                {
-                                const name = item.englishName === '' ? item.id : item.englishName;
-                                return name === wish;
-                                }
-                            )
-
-                            && 
-
-                            <button className='add-wishlist-button' onClick={ 
-                                async () => { 
-                                    const name = item.englishName === '' ? item.id : item.englishName;
-                                    await addToWishlist({ englishname: name }, this.props.token);}
-                                }>Add to Wishlist
+                            !this.isInWishlist(item) && <button className='add-wishlist-button' onClick={ 
+                                () => this.handleAddWishList(item)}>Add to Wishlist
                             </button>
                             }
 
-                            <form onSubmit={() => this.handleCreateJournal(item.englishName === '' ? item.id : item.englishName)}>
+                            <form onSubmit={() => 
+                                this.handleCreateJournal(item)}>
                                 <button className='make-journal-button'>Make a Journal</button>
                             </form>
                         </div>
