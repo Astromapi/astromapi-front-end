@@ -18,13 +18,15 @@ export default class JournalDetail extends Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
+        const { englishname, date, image_url} = this.state.journalEntry[0];
+
         await updateEntry(
             this.props.match.params.entryId, 
             {
                 journal_entry: this.state.formEntry,
-                englishname: this.state.journalEntry[0].englishname,
-                date: this.state.journalEntry[0].date,
-                image_url: this.state.journalEntry[0].image_url
+                englishname,
+                date,
+                image_url,
             },
             this.props.token
             )
@@ -38,6 +40,8 @@ export default class JournalDetail extends Component {
     }
 
     render() {
+        const firstEntry = this.state.journalEntry[0];
+
         return (
             <div className="main">
                 <h1>Edit Journal</h1>
@@ -45,22 +49,22 @@ export default class JournalDetail extends Component {
                         {
                             this.state.journalEntry.length &&
                             <h2>
-                                {this.state.journalEntry[0].englishname}
+                                {firstEntry.englishname}
                             </h2>
                         }
                     <div className='journal-detail-body'>
                         <section>
                             {
-                                this.state.journalEntry.length && <img src={this.state.journalEntry[0].image_url} alt="astro" />
+                                this.state.journalEntry.length > 0 && <img src={firstEntry.image_url} alt="astro" />
                             }
                             {
-                                this.state.journalEntry.length && <h4>{this.state.journalEntry[0].date}</h4>
+                                this.state.journalEntry.length > 0 && <h4>{firstEntry.date}</h4>
                             }
                         </section>
                         <article>
                             <form onSubmit={this.handleSubmit}>
                             {
-                                this.state.journalEntry.length && <textarea onChange={this.handleChange} value={this.state.formEntry}></textarea>
+                                this.state.journalEntry.length > 0 && <textarea onChange={this.handleChange} value={this.state.formEntry}></textarea>
                             }
                             <div className='journal-edit-buttons'>
                                 <button>Save</button>

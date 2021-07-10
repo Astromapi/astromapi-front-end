@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { getApodAPI } from './api-utils.js'
 
-
-
 export default class Apod extends Component {
     state = {
         description: '',
@@ -12,11 +10,7 @@ export default class Apod extends Component {
     }
     apod = async () => {
         const apodRes = await getApodAPI();
-        this.setState({ 
-            description: apodRes.description,
-            media_type: apodRes.media_type, 
-            title: apodRes.title,
-            url: apodRes.url })
+        this.setState(apodRes) // seems like the keys match, so this should work
     }
 
     componentDidMount = async () => {

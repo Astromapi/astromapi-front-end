@@ -6,7 +6,7 @@ export default class AboutUs extends Component {
         return (
             <div className='main'>
                 <h1>About Us</h1>
-
+            {/* might have been nice to make an array of data and map over it rather than copy and paste these blurbs */}
                 <div className='bio-item'>
                         <img className="bio-pic" src="https://media-exp1.licdn.com/dms/image/C5603AQE287gRluCYbA/profile-displayphoto-shrink_400_400/0/1621478870959?e=1631145600&v=beta&t=A1bkeCBGJPhO_ikmcv5avaRxNN-e-LG8DQn97NNW568" alt="DJ Drakos" />
                     <article>
